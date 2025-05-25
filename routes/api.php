@@ -2,9 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PackageController;
-use App\Http\Controllers\FoodController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Package\PackageController;
+use App\Http\Controllers\Food\FoodController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Booking\BookingController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,10 +28,22 @@ Route::get('/foodDetail/{id}', [FoodController::class, 'getFoodById']);
 Route::delete('deleteFood/{id}',[FoodController::class,'deleteFood']);
 Route::get('searchFood/{search}',[FoodController::class,'searchFood']);
 
+
+
+
 //Auth//
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::post('book-package/{package_id}', [BookingController::class, 'bookPackage']);
+});
+Route::prefix('auth')->group(function () {
+    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle']);
+    Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+    Route::get('facebook/redirect', [FacebookAuthController::class, 'redirectToFacebook']);
+    Route::get('facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);
+
 });

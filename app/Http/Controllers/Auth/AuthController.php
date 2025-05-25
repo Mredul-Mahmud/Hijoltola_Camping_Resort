@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\DTOs\Auth\RegistrationDTO;
 use App\DTOs\Auth\LoginDTO;
 use App\Interfaces\Auth\AuthInterface;
@@ -30,9 +31,6 @@ class AuthController extends Controller
         $dto = new RegistrationDTO($request->all());
         return response()->json($this->authService->register($dto));
     }
-
-
-    
 
 
     public function login(Request $request)
