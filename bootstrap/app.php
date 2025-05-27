@@ -13,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->alias([
+            'api.loggedUser' => \App\Http\Middleware\RedirectAuthenticatedUser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

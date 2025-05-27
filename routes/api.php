@@ -32,13 +32,18 @@ Route::get('searchFood/{search}',[FoodController::class,'searchFood']);
 
 
 //Auth//
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register'])->middleware('api.loggedUser');
+Route::post('login', [AuthController::class, 'login'])->middleware('api.loggedUser');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::post('book-package/{package_id}', [BookingController::class, 'bookPackage']);
+    Route::put('/bookings/edit/{booking_id}', [BookingController::class, 'editBooking']);
+    Route::delete('/bookings/delete/{booking_id}', [BookingController::class, 'deleteBooking']);
+    Route::get('/bookings/details/{booking_id}', [BookingController::class, 'bookingDetail']);
+    Route::get('/bookings', [BookingController::class, 'allBooking']);
+    Route::get('/bookings/search', [BookingController::class, 'searchBooking']);
 });
 Route::prefix('auth')->group(function () {
     Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle']);
